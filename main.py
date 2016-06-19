@@ -1,4 +1,4 @@
-from math import sqrt, pow, atan
+from math import sqrt, pow, atan, sin
 import time
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 h = 0.001
-tau = 0.001
+tau = 0.01
 MaxX = 1
 MinX = 0
 NX = int((MaxX - MinX)/h)
@@ -60,16 +60,21 @@ for i in range(NX):
 for i in range(NT):
     w[0][i] = 0.0
 
+print("calculating...")
 calculate(0.01)
+print("calculated")
 
 fig = plt.figure()
 ax = fig.gca(projection='3d')
-X = np.arange(-5, 5, 0.25)
-Y = np.arange(-5, 5, 0.25)
+print("building X")
+X = np.arange(MinX, MaxX, h)
+print("building Y")
+Y = np.arange(MinT, MaxT, tau)
+print("building grid")
 X, Y = np.meshgrid(X, Y)
-R = np.sqrt(X**2 + Y**2)
-Z = np.sin(R)
-surf = ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap=cm.coolwarm,
+#R = np.sqrt(X**2 + Y**2)
+print("building surface")    
+surf = ax.plot_surface(X, Y, w, rstride=1, cstride=1, cmap=cm.coolwarm,
                        linewidth=0, antialiased=False)
 ax.set_zlim(-1.01, 1.01)
 
