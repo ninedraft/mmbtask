@@ -44,11 +44,18 @@ def solution(i, j, delta):
     u = 0 
     while abs(u - u_prev) > delta: 
 	    u_prev = u
-	    u = u_prev - equation(u_prev, i, j)/difeq (u_prev)
+	    u = u_prev - equation(u_prev, i, j)/diffeq(u_prev)
     return u 
+
+def calculate(delta):
+    for i in range(NX - 1): 
+         for j in range(NT - 1):
+            w[i+1][j+1] = solution(i, j, delta) 
 
 for i in range(NX):
     w[i][0] = pow(i*h, 2)
 
 for i in range(NT):
     w[0][i] = 0.0
+
+calculate(0.01)
