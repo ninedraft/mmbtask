@@ -1,4 +1,11 @@
 from math import sqrt, pow, atan
+import time
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib import cm
+from matplotlib.ticker import LinearLocator, FormatStrFormatter
+import matplotlib.pyplot as plt
+import numpy as np
+
 h = 0.001
 tau = 0.001
 MaxX = 1
@@ -8,13 +15,8 @@ MinT = 0
 MaxT = 1
 NT = int((MaxT - MinT)/tau)
 
+tick = time.clock()
 
-class Point:
-    def __init__(self, i, j, val):
-        self.x = i*h 
-        self.t = j*tau
-        self.val = val 
-     
 w = [[0.0 for t in range(NT)] for x in range(NX)] 
 
 
@@ -30,7 +32,7 @@ def ZeroTime(x):
 def ZeroX(t):
     return 0
 
-def Projectile(i, j):
+def Mesh(i, j):
 	return (i*h, j*tau, w[i][j])
 
 def equation(u, i, j):
@@ -59,3 +61,21 @@ for i in range(NT):
     w[0][i] = 0.0
 
 calculate(0.01)
+
+fig = plt.figure()
+ax = fig.gca(projection='3d')
+X = np.arange(-5, 5, 0.25)
+Y = np.arange(-5, 5, 0.25)
+X, Y = np.meshgrid(X, Y)
+R = np.sqrt(X**2 + Y**2)
+Z = np.sin(R)
+surf = ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap=cm.coolwarm,
+                       linewidth=0, antialiased=False)
+ax.set_zlim(-1.01, 1.01)
+
+ax.zaxis.set_major_locator(LinearLocator(10))
+ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
+
+fig.colorbar(surf, shrink=0.5, aspect=5)
+print( time.clock() - tick)
+plt.show()
