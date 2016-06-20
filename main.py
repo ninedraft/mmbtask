@@ -13,7 +13,7 @@ MaxX = 1.0
 MinX = 0.0
 NX = ceil((MaxX - MinX)/h)
 MinT = 0.0
-MaxT = 1.0
+MaxT = 0.3
 NT = ceil((MaxT - MinT)/tau)
 delta = 0.01
 
@@ -62,12 +62,12 @@ Xn = NX - 2
 Tn = NT - 2
 
 def calculate(delta):
-    bar = progressbar.ProgressBar(max_value=(Tn - 1)*(Xn - 1) + 1)
+   #bar = progressbar.ProgressBar(max_value=(Tn - 1)*(Xn - 3))
     n = 0
     for i in range(1, Xn): 
-         for j in range(1, Tn):
+         for j in range(0, Tn):
             w[i][j+1] = solution(i, j, delta)
-            bar.update(value = n)
+            #bar.update(value = n)
             n = n + 1
 
 for i in range(NX):
@@ -79,16 +79,16 @@ print("\n")
 
 print("building X")
 X = np.zeros((Xn+2))
-for i in X:
+for i in range(len(X)):
     X[i] = i*h
 
 print("building Y")
 Y = np.zeros((Tn+2))
-for i in Y:
+for i in range(len(Y)):
     Y[i] = i*tau
 
 print("building grid")
-X, Y = np.meshgrid(X, Y)[::-1]
+X, Y = np.meshgrid(Y, X)
 
 print("building surface")
 print('w shape: {0}'.format(w.shape))    
@@ -101,8 +101,9 @@ ax = fig.gca(projection='3d')
 
 surf = ax.plot_surface(X, Y, w, rstride=1, cstride=1, cmap=cm.coolwarm,
                        linewidth=0, antialiased=False)
-ax.set_zlim(-1.01, 1.01)
-
+#ax.set_zlim(-1.01, 1.01)
+ax.set_xlim(MinX - 0.01, MaxX + 0.01)
+ax.set_ylim(MinT - 0.01, MaxT + 0.01)
 ax.zaxis.set_major_locator(LinearLocator(10))
 ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
 
