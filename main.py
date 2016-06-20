@@ -13,8 +13,9 @@ MaxX = 1.0
 MinX = 0.0
 NX = ceil((MaxX - MinX)/h)
 MinT = 0.0
-MaxT = 0.3
+MaxT = 1.0
 NT = ceil((MaxT - MinT)/tau)
+delta = 0.01
 
 print(NX, NT)
 
@@ -57,13 +58,14 @@ def solution(i, j, delta):
 	    u = u_prev - equation(u_prev, i, j)/diffeq(u_prev)
     return u 
 
+Xn = NX - 2
+Tn = NT - 2
+
 def calculate(delta):
-    X = NX - 2
-    T = NT - 2
-    bar = progressbar.ProgressBar(max_value=X*T - X - T)
+    bar = progressbar.ProgressBar(max_value=(Tn - 1)*(Xn - 1) + 1)
     n = 0
-    for i in range(1, X): 
-         for j in range(1, T):
+    for i in range(1, Xn): 
+         for j in range(1, Tn):
             w[i][j+1] = solution(i, j, delta)
             bar.update(value = n)
             n = n + 1
@@ -72,19 +74,31 @@ for i in range(NX):
     w[i][0] = np.power(i*h, 2)
 
 print("calculating...")
-calculate(0.01)
-print("calculated")
+calculate(delta)
+print("\n")
+
+print("building X")
+X = np.zeros((Xn+2))
+for i in X:
+    X[i] = i*h
+
+print("building Y")
+Y = np.zeros((Tn+2))
+for i in Y:
+    Y[i] = i*tau
+
+print("building grid")
+X, Y = np.meshgrid(X, Y)[::-1]
+
+print("building surface")
+print('w shape: {0}'.format(w.shape))    
+print('x shape: {0}'.format(X.shape))
+print('y shape: {0}'.format(Y.shape))
+
 
 fig = plt.figure()
 ax = fig.gca(projection='3d')
-print("building X")
-X = np.arange(MinX, MaxX, h)[:-2]
-print("building Y")
-Y = np.arange(MinT, MaxT, tau)[:-2]
-print("building grid")
-X, Y = np.meshgrid(X, Y)
-#R = np.sqrt(X**2 + Y**2)
-print("building surface")    
+
 surf = ax.plot_surface(X, Y, w, rstride=1, cstride=1, cmap=cm.coolwarm,
                        linewidth=0, antialiased=False)
 ax.set_zlim(-1.01, 1.01)
