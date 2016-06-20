@@ -13,7 +13,7 @@ MaxX = 1.0
 MinX = 0.0
 NX = ceil((MaxX - MinX)/h)
 MinT = 0.0
-MaxT = 0.3
+MaxT = 2.0
 NT = ceil((MaxT - MinT)/tau)
 delta = 0.01
 
