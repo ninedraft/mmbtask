@@ -29,15 +29,6 @@ def F(u):
 def dF(u):
     return (4 *np.power(u, 3))/(1 + np.power(1 + np.power(u, 4), 2))
 
-def ZeroTime(x):
-    return pow(x, 2)
-
-def ZeroX(t):
-    return 0
-
-def Mesh(i, j):
-	return (i*h, j*tau, w[i][j])
-
 def equation(u, i, j):
     uu = 0
     try:
@@ -109,9 +100,11 @@ surf = ax.plot_surface(X, Y, w, rstride=1, cstride=1, cmap=cm.coolwarm,
 #ax.set_zlim(-1.01, 1.01)
 ax.set_xlim(MinX - 0.01, MaxX + 0.01)
 ax.set_ylim(MinT - 0.01, MaxT + 0.01)
-ax.zaxis.set_major_locator(LinearLocator(5))
+ax.zaxis.set_major_locator(LinearLocator(10))
 ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
 
 fig.colorbar(surf, shrink=0.5, aspect=5)
 print(time.clock() - tick)
+plt.xlabel('X')
+plt.ylabel('T')
 plt.show()
