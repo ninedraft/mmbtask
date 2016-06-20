@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import progressbar
 
-h = 0.01
-tau = 0.01
+h = 0.005
+tau = 0.005
 MaxX = 1.0
 MinX = 0.0
 NX = ceil((MaxX - MinX)/h)
@@ -39,13 +39,13 @@ def Mesh(i, j):
 	return (i*h, j*tau, w[i][j])
 
 def equation(u, i, j):
-    u = 0
+    uu = 0
     try:
-        uu = ((u - w[i][j + 1]) / (2*tau) + (F(u) - F(w[i - 1][j + 1])) / (2*h))
+        uu = ((u - w[i][j]) / (tau) + (F(u) - F(w[i - 1][j + 1])) /(h))
     except Exception as err:
         print('\ni = {0}, j = {1}, err = {2}'.format(i, j, err))
         exit(1)
-    return u
+    return uu
 
 def diffeq(u):
     return 1/tau + dF(u)/h
@@ -62,12 +62,17 @@ Xn = NX - 2
 Tn = NT - 2
 
 def calculate(delta):
-   #bar = progressbar.ProgressBar(max_value=(Tn - 1)*(Xn - 3))
-    n = 0
+    max_val = (Xn)*(Tn)
+    bar = progressbar.ProgressBar(max_value = max_val)
+    n = 1
     for i in range(1, Xn): 
          for j in range(0, Tn):
             w[i][j+1] = solution(i, j, delta)
-            #bar.update(value = n)
+            try:
+                bar.update(value = n)
+            except Exception as err:
+                print('\nn = {0}, max_val = {1}, err = {2}'.format(n, max_val, err))
+                exit(1)
             n = n + 1
 
 for i in range(NX):
