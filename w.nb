@@ -1,0 +1,121 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      3380,        111]
+NotebookOptionsPosition[      2999,         93]
+NotebookOutlinePosition[      3376,        109]
+CellTagsIndexPosition[      3333,        106]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"eq", " ", "=", 
+   TagBox[GridBox[{
+      {"\[Piecewise]", GridBox[{
+         {
+          RowBox[{
+           RowBox[{
+            SubscriptBox["\[PartialD]", "t"], "u"}], " ", "+", " ", 
+           RowBox[{
+            SubscriptBox["\[PartialD]", 
+             RowBox[{" ", "x"}]], 
+            RowBox[{"Atan", "[", 
+             RowBox[{"1", " ", "+", " ", 
+              SuperscriptBox["u", "4"]}], "]"}]}]}], "0"},
+         {
+          RowBox[{"u", 
+           RowBox[{"(", 
+            RowBox[{"x", ",", " ", "0"}], ")"}]}], 
+          SuperscriptBox["x", "2"]},
+         {
+          RowBox[{"u", 
+           RowBox[{"(", 
+            RowBox[{"0", ",", " ", "t"}], ")"}]}], "0"}
+        },
+        AllowedDimensions->{2, Automatic},
+        Editable->True,
+        GridBoxAlignment->{
+         "Columns" -> {{Left}}, "ColumnsIndexed" -> {}, 
+          "Rows" -> {{Baseline}}, "RowsIndexed" -> {}},
+        GridBoxItemSize->{
+         "Columns" -> {{Automatic}}, "ColumnsIndexed" -> {}, "Rows" -> {{1.}},
+           "RowsIndexed" -> {}},
+        GridBoxSpacings->{"Columns" -> {
+            Offset[0.27999999999999997`], {
+             Offset[0.84]}, 
+            Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+            Offset[0.2], {
+             Offset[0.4]}, 
+            Offset[0.2]}, "RowsIndexed" -> {}},
+        Selectable->True]}
+     },
+     GridBoxAlignment->{
+      "Columns" -> {{Left}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+       "RowsIndexed" -> {}},
+     GridBoxItemSize->{
+      "Columns" -> {{Automatic}}, "ColumnsIndexed" -> {}, "Rows" -> {{1.}}, 
+       "RowsIndexed" -> {}},
+     GridBoxSpacings->{"Columns" -> {
+         Offset[0.27999999999999997`], {
+          Offset[0.35]}, 
+         Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+         Offset[0.2], {
+          Offset[0.4]}, 
+         Offset[0.2]}, "RowsIndexed" -> {}}],
+    "Piecewise",
+    DeleteWithContents->True,
+    Editable->False,
+    SelectWithContents->True,
+    Selectable->False]}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]"}]], "Input",
+ CellChangeTimes->{{3.6754272645115995`*^9, 3.6754275109512043`*^9}},
+ EmphasizeSyntaxErrors->True],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[""], "Input",
+ CellChangeTimes->{{3.6754274392501864`*^9, 3.6754274443058596`*^9}}],
+
+Cell[BoxData["eq"], "Output",
+ CellChangeTimes->{3.675427440353056*^9}]
+}, Open  ]]
+},
+WindowSize->{1366, 725},
+WindowMargins->{{-8, Automatic}, {Automatic, -8}},
+Magnification:>1.4 Inherited,
+FrontEndVersion->"10.0 for Microsoft Windows (64-bit) (September 9, 2014)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 2230, 62, 153, "Input"],
+Cell[CellGroupData[{
+Cell[2813, 86, 96, 1, 42, "Input"],
+Cell[2912, 89, 71, 1, 41, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)
+

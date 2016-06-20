@@ -27,7 +27,7 @@ def F(u):
     return atan(1 + pow(u, 4))
 
 def dF(u):
-    return (4 *pow(u, 3))/(1 + pow(1 + pow(u, 4), 2))
+    return (4 *np.power(u, 3))/(1 + np.power(1 + np.power(u, 4), 2))
 
 def ZeroTime(x):
     return pow(x, 2)
@@ -41,7 +41,7 @@ def Mesh(i, j):
 def equation(u, i, j):
     u = 0
     try:
-        uu = ((u - w[i][j + 1]) / tau + (F(u) - F(w[i - 1][j + 1])) / h)
+        uu = ((u - w[i][j + 1]) / (2*tau) + (F(u) - F(w[i - 1][j + 1])) / (2*h))
     except Exception as err:
         print('\ni = {0}, j = {1}, err = {2}'.format(i, j, err))
         exit(1)
@@ -88,7 +88,7 @@ for i in range(len(Y)):
     Y[i] = i*tau
 
 print("building grid")
-X, Y = np.meshgrid(Y, X)
+Y, X = np.meshgrid(Y, X)
 
 print("building surface")
 print('w shape: {0}'.format(w.shape))    
@@ -104,9 +104,9 @@ surf = ax.plot_surface(X, Y, w, rstride=1, cstride=1, cmap=cm.coolwarm,
 #ax.set_zlim(-1.01, 1.01)
 ax.set_xlim(MinX - 0.01, MaxX + 0.01)
 ax.set_ylim(MinT - 0.01, MaxT + 0.01)
-ax.zaxis.set_major_locator(LinearLocator(10))
+ax.zaxis.set_major_locator(LinearLocator(5))
 ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
 
 fig.colorbar(surf, shrink=0.5, aspect=5)
-print( time.clock() - tick)
+print(time.clock() - tick)
 plt.show()
