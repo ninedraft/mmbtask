@@ -74,21 +74,6 @@ void delete_base_coeff_all(int N) {
   free(beta);
 }
 
-void clear_base_coeff(double *M, int N) {
-  for (int n = 0; n <= N; n++)
-    M[n] = 0;
-}
-
-void clear_base_coeff_all(int N) {
-  clear_base_coeff(A, N);
-  clear_base_coeff(B, N);
-  clear_base_coeff(C, N);
-  clear_base_coeff(F, N);
-  clear_base_coeff(U, N);
-  clear_base_coeff(alpha, N);
-  clear_base_coeff(beta, N);
-}
-
 void initial() {
   for (int i = 0; i <= Nx; i++)
     for (int j = 0; j <= Ny; j++)
@@ -186,10 +171,12 @@ int OMM2() {
   tau = T / Nt;
   dx = X / Nx;
   dy = Y / Ny;
+  // создание поля
   base();
+
   clear_base_all();
   initial();
   maker();
-  delete_base_all();
+
   return (0);
 }
