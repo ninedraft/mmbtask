@@ -100,7 +100,7 @@ void bounds(int s) {
     u[0][j][s] = 0;
     u[Nx][j][s] = 0;
   }
-  for (int i = 0; i <= Nx; i++) {
+  for (int   i = 0; i <= Nx; i++) {
     u[i][0][s] = 0;
     u[i][Ny][s] = 0;
   }
