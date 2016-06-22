@@ -30,14 +30,18 @@ for i in range(Nx + 1):
     for j in range(Ny + 1):
         w[i][j][0] = cos(hx*i)*sin(pi*hy*j)
 
-def set_boundary(s):
-    for j in range(0, Ny + 1):
-        w[0][j][s] = 0
-        w[Nx][j][s] = 0
-
-    for i in range(0, Nx + 1):
-	    w[i][0][s] = 0
-	    w[i][Ny][s] = 0
+def progonka_neiman(A1, B1, C1, F, v, n):
+	alpha = np.zeros(n)
+	beta = np.zeros(n)
+	alpha[0] = 1.0
+    beta[0] = 0.0
+	for i in range(1, n):
+		alpha[i] = C1/(B1-A1*alpha[i-1])
+		beta[i] = (A1*beta[i-1]+F[i-1])/(B1-A1*alpha[i-1])
+		v[n] = beta[n]/(1-alpha[n]) #ГУ Неймана
+    for (i = n-1;i > 0;i--):
+		v[i] = alpha[i]*v[i+1]+beta[i]
+	v[0] = v[1]
 
 def sweep(kapa, mu, Coeff, N):
 	alpha = np.zeros((N + 1))
