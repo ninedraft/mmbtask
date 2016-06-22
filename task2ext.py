@@ -54,9 +54,21 @@ def calculate():
     temp2 = np.zeros((Ny + 1))
     F1 = np.zeros((Nx - 1))
     F2 = np.zeros((Ny - 1))
+    print('Nx = {0} Ny = {1}'.format(Nx, Ny))
+    print("setting initial values...")
+    bar = progressbar.ProgressBar(max_value = (Nx + 1)*(Ny + 1))
+    n = 0
     for i in range(0, Nx + 1):
         for j in range(0, Ny + 1):
             u[i][j][0] =  cos(i*hx)*cos(j*hy*pi)
+            try:
+                n =  (i + 1)*(Nx + 1) + j
+                bar.update(value = n)
+            except Exception as err:
+                print('\nn = {0}, max = {1} i ={2} j = {3}'.format(n, bar.max_value, i, j))
+                exit(1)
+    print("\n")
+
 
     for k in range(0, Nt):
         for i in range(0, Nx + 1):
