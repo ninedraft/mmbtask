@@ -7,12 +7,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 import progressbar
 
-hx = 0.01
+hx = 0.05
 MinX = 0.0
 MaxX = pi 
 Nx = ceil((MaxX - MinX)/hx)
 
-hy = 0.01
+hy = 0.05
 MinY = 0.0
 MaxY = 2
 Ny = ceil((MaxY - MinY)/hy)
@@ -22,7 +22,7 @@ MinT = 0.0
 MaxT = 2
 Nt = ceil((MaxT - MinT)/tau)
 
-w = np.full((Nx + 1, Ny + 1, Nt + 1), 1.0)
+w = np.zeros((Nx + 1, Ny + 1, Nt + 1))
 
 def progonka_neiman(A, B, C, F, v, n):
     alpha = np.zeros(n + 1)
@@ -54,22 +54,24 @@ def calculate():
     temp2 = np.zeros((Ny + 1))
     F1 = np.zeros((Nx - 1))
     F2 = np.zeros((Ny - 1))
-    print('Nx = {0} Ny = {1}'.format(Nx, Ny))
+    print('Nx = {0} Ny = {1} Nt = {2}'.format(Nx, Ny, Nt))
     print("setting initial values...")
     bar = progressbar.ProgressBar(max_value = (Nx + 1)*(Ny + 1))
-    n = 0
+    n = 1
     for i in range(0, Nx + 1):
         for j in range(0, Ny + 1):
-            u[i][j][0] =  cos(i*hx)*cos(j*hy*pi)
             try:
-                n =  (i + 1)*(Nx + 1) + j
+                u[i][j][0] =  cos(i*hx)*cos(j*hy*pi)
                 bar.update(value = n)
+                n = n + 1
             except Exception as err:
                 print('\nn = {0}, max = {1} i ={2} j = {3}'.format(n, bar.max_value, i, j))
                 exit(1)
     print("\n")
 
-
+    print("calculating grid")
+    bar = progressbar.ProgressBar(max_value = Nt)
+    n = 0
     for k in range(0, Nt):
         for i in range(0, Nx + 1):
             for j in range(0, Ny + 1):
@@ -97,12 +99,65 @@ def calculate():
             progonka_neiman(A1, B1, C1, F1, temp1, Nx)
             for i in range(0, Nx + 1):
                 temp[i][j] = temp1[i]
+        
         # second half step
         for i in range(1, Nx):
             for j in range(0, Ny + 1):
                 temp2[j] = temp[i][j]
             for j in range(0, Ny - 1):
                 F2[j] = A1 * (temp[i - 1][j + 1] + temp[i + 1][j + 1]) + (1 - 2 * C1) * temp[i][j + 1]
+                progonka_neiman(A2, B2, C2, F2, temp2, Ny)
             for j in range(0, Ny + 1):
                 w[i][j][k + 1] = temp2[j]
+
+        n = n + 1
+        bar.update(value = n)
+
+
+def show(n):
+    print("building X")
+    X = np.zeros((Nx + 1))
+    for i in range(len(X)):
+        X[i] = i*hx
+
+    print("building Y")
+    Y = np.zeros((Ny + 1))
+    for i in range(len(Y)):
+        Y[i] = i*hy
+
+    print("building grid")
+    Y, X = np.meshgrid(Y, X)
+
+
+    u = np.zeros((Nx + 1, Ny + 1))
+    for i in range(Nx + 1):
+        for j in range(Ny + 1):
+            u[i][j] = w[i][j][n]
+
+    print("building surface")
+    print('w shape: {0}'.format(u.shape))    
+    print('x shape: {0}'.format(X.shape))
+    print('y shape: {0}'.format(Y.shape))
+
+    fig = plt.figure()
+    ax = fig.gca(projection='3d')
+
+    surf = ax.plot_surface(X, Y, u, rstride=1, cstride=1, cmap=cm.coolwarm,
+                        linewidth=0, antialiased=False)
+    #ax.set_zlim(-1.01, 1.01)
+    ax.set_xlim(MinX - 0.01, MaxX + 0.01)
+    ax.set_ylim(MinY - 0.01, MaxY + 0.01)
+    ax.zaxis.set_major_locator(LinearLocator(5))
+    ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
+
+    fig.colorbar(surf, shrink=0.5, aspect=5)
+    plt.xlabel('X')
+    plt.ylabel('Y')
+    plt.show()
+
 calculate()
+print("\n")
+n = 10
+step = ceil(Nt/n)
+for i in range(0, Nt, step):
+    show(i)
